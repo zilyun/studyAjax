@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>dept array lib</title>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <link rel="icon" href="${pageContext.request.contextPath}/image/home.ico" />
@@ -20,24 +20,37 @@ $(function () {
 		$(".container div").remove() // div 요소 제거합니다.
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/get_array_lib_dept", // 요청 전송 url
+			type : "post",
+			url : "${pageContext.request.contextPath}/dept_lib", // 요청 전송 url
 			dataType : "json", 		   // return data의 Type(에이잭스 성공 후 돌려받은 자료 형을 정의)
 			cache : false,			   // 브라우저 캐시 값이 아닌 현재의 데이터를 받아오도록 합니다.
 			success : function(rdata){ // HTTP 요청이 성공한 경우 실행할 함수 정의(이벤트 핸들러)
 									   // rdata는 서버에서 보낸 데이터입니다.
-				let table = "<table class='table'>"
-							+ "<thead><tr>"
-							+ "<th>부서번호</th>"
-							+ "<th>부서명</th>"					   
-							+ "<th>지역</th></tr>"
-							+ "</thead><tbody>";		   
-				$(rdata).each(function() {
-					table += "<tr><td>" + this.deptno + "</td>"
-					table += "<td>" + this.dname + "</td>";
-					table += "<td>" + this.loc + "</td></tr>";
-				});
-					table += "</tbody></table>";
-				$("body .container").append(table);
+				
+				console.log("성공" + rdata)
+				$("button+div").remove()
+									   
+				if(rdata.length>0) {
+					let table = '<div id="result"><table class="table">'
+								+ "<thead><tr>"
+								+ "<th>부서번호</th>"
+								+ "<th>부서명</th>"					   
+								+ "<th>지역</th>"
+								+ "</tr></thead><tbody>";
+								
+					$(rdata).each(function(index, item) { // item = this
+						table += "<tr>";
+						table += "	<td>" + item.deptno + "</td>";
+						table += "	<td>" + item.dname + "</td>";
+						table += "	<td>" + item.loc + "</td>";
+						table += "</tr>";
+					}); // each end
+					
+					table += "</tbody></table></div>";
+					$(".container").append(table);
+				} else {
+					$(".container").append('<div>데이터가 존재하지 않습니다.</div>');
+				}
 			},
 			error : function(request, status, error){
 				$(".container").append(
