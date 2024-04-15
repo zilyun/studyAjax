@@ -19,7 +19,7 @@ $(function() {
 						"age"    : $("#age").val(),
 						"address": $("#address").val()
 					 };
-		$("div").load("process.jsp", data);
+		$("div").load("process.jsp", data); // chat 활용 시 리스트를 던져서 처리시킨다.
 	});
 })
 </script>

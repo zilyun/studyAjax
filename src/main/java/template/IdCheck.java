@@ -26,5 +26,4 @@ public class IdCheck extends HttpServlet {
 		response.getWriter().print(result); // println으로 시작할 경우 숫자로 인식
 	}
 	
-	
 }
